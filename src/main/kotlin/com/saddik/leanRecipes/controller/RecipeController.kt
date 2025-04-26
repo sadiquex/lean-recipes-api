@@ -3,12 +3,9 @@ package com.saddik.leanRecipes.controller
 import com.saddik.leanRecipes.controller.dto.recipe.ApiResponseDto
 import com.saddik.leanRecipes.controller.dto.recipe.RecipeDto
 import com.saddik.leanRecipes.service.IRecipeService
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
 import jakarta.validation.Valid
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/api/v1/recipes")
@@ -21,16 +18,34 @@ class RecipeController(val recipeService: IRecipeService) {
 
         val addRecipeResponse = recipeService.createRecipe(payload)
 
-//        baseLog.message = "Income added with response $addRecipeResponse"
+//        baseLog.message = "Recipe added with response $addRecipeResponse"
 //        logUtil.log(baseLog)
 
         val code = if (addRecipeResponse != null) 201 else 400
-        val message = if (addRecipeResponse != null) "Income created successfully" else "Failed to create income"
+        val message = if (addRecipeResponse != null) "Recipe created successfully" else "Failed to create recipe"
 
         val apiResponse = ApiResponseDto(
             message = message,
             code = code,
             body = addRecipeResponse
+        )
+        return ResponseEntity.status(code).body(apiResponse)
+
+    }
+
+    @GetMapping
+    fun getAllRecipes( ): ResponseEntity<ApiResponseDto<List<RecipeDto>>> {
+
+        val allRecipes = recipeService.getAllRecipes()
+
+        val isSuccess = allRecipes.isNotEmpty()
+        val code = if (isSuccess) 200 else 400
+        val message = if (isSuccess) "Recipes fetched successfully" else "Failed to fetch recipes"
+
+        val apiResponse = ApiResponseDto(
+            message = message,
+            code = code,
+            body = allRecipes
         )
         return ResponseEntity.status(code).body(apiResponse)
 
