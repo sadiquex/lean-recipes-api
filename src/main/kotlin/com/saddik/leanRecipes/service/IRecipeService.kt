@@ -1,0 +1,15 @@
+package com.saddik.leanRecipes.service
+
+import com.saddik.leanRecipes.controller.dto.recipe.RecipeDto
+
+interface IRecipeService {
+    fun createRecipe(dto: RecipeDto): RecipeDto?
+
+    fun getRecipeById(id: Long): RecipeDto?
+
+    fun getAllRecipes(): List<RecipeDto>
+
+//    fun updateRecipe(id: Long, request: RecipeDto): RecipeResponse
+
+    fun deleteRecipe(id: Long): Boolean
+}

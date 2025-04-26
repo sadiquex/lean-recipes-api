@@ -1,0 +1,10 @@
+name: lean_recipes
+services:
+  database:
+    container_name: lean_recipes_database
+    image: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=12345
+      - POSTGRES_DB=lean-recipes-db
