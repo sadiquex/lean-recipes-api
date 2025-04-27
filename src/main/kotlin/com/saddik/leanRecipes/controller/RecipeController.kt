@@ -11,6 +11,12 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/api/v1/recipes")
 class RecipeController(val recipeService: IRecipeService) {
 //    TODO: setup logging
+val logUtil = LogUtil(
+    OperationLevel.CONTROLLER,
+    this::class.java
+)
+    val baseLog = BaseLog()
+
 
     @PostMapping
     fun createRecipe(@Valid @RequestBody payload: RecipeDto): ResponseEntity<ApiResponseDto<RecipeDto>> {
