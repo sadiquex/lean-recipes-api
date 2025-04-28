@@ -8,7 +8,6 @@ interface IRecipeService {
 
     fun getRecipeById(id: Long): RecipeDto?
 
-    //    fun getAllRecipes(): List<RecipeDto>
     fun getAllRecipes(): List<RecipeDto>
 
 //    fun updateRecipe(id: Long, request: RecipeDto): RecipeResponse
