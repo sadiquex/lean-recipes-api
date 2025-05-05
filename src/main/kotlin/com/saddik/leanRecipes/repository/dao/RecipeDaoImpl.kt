@@ -1,6 +1,7 @@
 package com.saddik.leanRecipes.repository.dao
 
 import com.saddik.leanRecipes.controller.dto.recipe.RecipeDto
+import com.saddik.leanRecipes.exceptions.ResourceNotFoundException
 import com.saddik.leanRecipes.repository.RecipeRepository
 import com.saddik.leanRecipes.utils.RecipeMapper
 import jakarta.transaction.Transactional
@@ -28,7 +29,40 @@ class RecipeDaoImpl(val recipeRepository: RecipeRepository) : IRecipeDao {
     }
 
     override fun getRecipeById(id: Long): RecipeDto? {
-        TODO("Not yet implemented")
+        val recipe = recipeRepository.findById(id)
+        val searchResult = recipeRepository.findById(id)
+
+//        if (recipe.isPresent) {
+//            val recipeEntity = recipe.get()
+//
+//            //                convert into dto for client
+//            val convertedRecipe = RecipeMapper.toDto(recipeEntity)
+//            return convertedRecipe
+//        } else {
+//            throw ResourceNotFoundException(message = "Recipe with id $id not found")
+//        }
+
+        if (searchResult.isPresent) {
+            val singleExpenseData = searchResult.get()
+
+//            baseLog.additionalInfo?.put(
+//                "success", "Successfully retrieved details of expense with id: $id :: singleExpenseData"
+//            )
+//            logUtil.log(baseLog)
+
+            val returnDto = RecipeMapper.toDto(singleExpenseData)
+
+            return returnDto
+        } else {
+
+//            baseLog.additionalInfo?.put("failure", "Expense with id: $id :: not found")
+//            logUtil.log(baseLog)
+
+            throw ResourceNotFoundException(
+                message = "unable to find recipe with id $id",
+            )
+        }
+
     }
 
 //    override fun getAllRecipes(page: Int, size: Int, sortBy: String, direction: String): Page<RecipeDto> {

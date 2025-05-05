@@ -61,4 +61,25 @@ class RecipeController(val recipeService: IRecipeService) {
 
     }
 
+    @GetMapping("/{id}")
+    fun getRecipeById(@PathVariable("id") id: Long): ResponseEntity<ApiResponseDto<RecipeDto>> {
+        baseLog.message = "Get recipe by Id controller initiated"
+        logUtil.log(baseLog)
+
+        val singleRecipe = recipeService.getRecipeById(id)
+
+        baseLog.message = "Single recipe data retrieved with response : $singleRecipe"
+        logUtil.log(baseLog)
+
+        val code = 200
+        val message = "Income with id '$id' retrieved"
+
+        val apiResponse = ApiResponseDto(
+            message = message,
+            code = code,
+            body = singleRecipe
+        )
+        return ResponseEntity.status(code).body(apiResponse)
+    }
+
 }

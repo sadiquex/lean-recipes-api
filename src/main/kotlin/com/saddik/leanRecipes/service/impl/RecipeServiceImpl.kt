@@ -1,6 +1,7 @@
 package com.saddik.leanRecipes.service.impl
 
 import com.saddik.leanRecipes.controller.dto.recipe.RecipeDto
+import com.saddik.leanRecipes.exceptions.ResourceNotFoundException
 import com.saddik.leanRecipes.repository.dao.IRecipeDao
 import com.saddik.leanRecipes.service.IRecipeService
 import com.saddik.leanRecipes.utils.log.BaseLog
@@ -40,7 +41,7 @@ class RecipeServiceImpl(val recipeDao: IRecipeDao) : IRecipeService {
 
     override fun getAllRecipes(): List<RecipeDto> {
         try {
-            baseLog.message = "Fetching all income service started"
+            baseLog.message = "Fetching all recipe service started"
             logUtil.log(baseLog)
 
             return recipeDao.getAllRecipes()
@@ -55,7 +56,26 @@ class RecipeServiceImpl(val recipeDao: IRecipeDao) : IRecipeService {
     }
 
     override fun getRecipeById(id: Long): RecipeDto? {
-        TODO("Not yet implemented")
+        try {
+            baseLog.message = "Fetching single recipe service started"
+            logUtil.log(baseLog)
+
+//            return recipeDao.getRecipeById(id)
+
+            val recipe = recipeDao.getRecipeById(id)
+            if (recipe == null) {
+                throw ResourceNotFoundException("Recipe with id $id not found")
+            }
+//
+            return recipe
+
+
+        } catch (ex: Exception) {
+            baseLog.message = ex.message
+            logUtil.logE(baseLog, ex)
+            throw RuntimeException("Unable to get recipe with id $id")
+        }
+
     }
 
     override fun deleteRecipe(id: Long): Boolean {

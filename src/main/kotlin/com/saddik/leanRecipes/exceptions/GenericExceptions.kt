@@ -44,7 +44,10 @@ class GenericExceptions {
         exception.printStackTrace() // Prints the stack trace to the console
 
         val errorResponse = ErrorResponseDto()
-        errorResponse.message = exception.cause.toString()
+//        errorResponse.message = exception.cause.toString()
+
+        errorResponse.message = exception.message ?: "An unexpected error occurred"
+
         errorResponse.requestid = MDC.get("requestId")
         errorResponse.timestamp = Instant.now()
 
