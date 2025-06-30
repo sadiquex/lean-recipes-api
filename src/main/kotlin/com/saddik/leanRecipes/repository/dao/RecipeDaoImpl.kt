@@ -43,14 +43,14 @@ class RecipeDaoImpl(val recipeRepository: RecipeRepository) : IRecipeDao {
 //        }
 
         if (searchResult.isPresent) {
-            val singleExpenseData = searchResult.get()
+            val singleRecipeData = searchResult.get()
 
 //            baseLog.additionalInfo?.put(
-//                "success", "Successfully retrieved details of expense with id: $id :: singleExpenseData"
+//                "success", "Successfully retrieved details of expense with id: $id :: singleRecipeData"
 //            )
 //            logUtil.log(baseLog)
 
-            val returnDto = RecipeMapper.toDto(singleExpenseData)
+            val returnDto = RecipeMapper.toDto(singleRecipeData)
 
             return returnDto
         } else {
