@@ -82,4 +82,28 @@ class RecipeController(val recipeService: IRecipeService) {
         return ResponseEntity.status(code).body(apiResponse)
     }
 
+    @DeleteMapping("/{id}")
+    fun deleteRecipe(@PathVariable("id") id: Long): ResponseEntity<ApiResponseDto<Boolean>> {
+        baseLog.message = "Delete recipe controller initiated"
+        logUtil.log(baseLog)
+
+        val singleRecipe = recipeService.deleteRecipe(id)
+
+        baseLog.message = "Recipe with id '$id' deleted: $singleRecipe"
+        logUtil.log(baseLog)
+
+        val code = 200
+        val message = "Recipe deleted"
+
+        val apiResponse = ApiResponseDto(
+            message = message,
+            code = code,
+            body = singleRecipe
+        )
+
+        return ResponseEntity.status(code).body(apiResponse)
+
+
+    }
+
 }

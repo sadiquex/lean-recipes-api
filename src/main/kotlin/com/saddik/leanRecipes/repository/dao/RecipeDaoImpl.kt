@@ -2,20 +2,22 @@ package com.saddik.leanRecipes.repository.dao
 
 import com.saddik.leanRecipes.controller.dto.recipe.RecipeDto
 import com.saddik.leanRecipes.exceptions.ResourceNotFoundException
-import com.saddik.leanRecipes.exceptions.ResourceAlreadyExistsException
 import com.saddik.leanRecipes.repository.RecipeRepository
 import com.saddik.leanRecipes.utils.RecipeMapper
+import com.saddik.leanRecipes.utils.log.BaseLog
+import com.saddik.leanRecipes.utils.log.LogUtil
+import com.saddik.leanRecipes.utils.log.OperationLevel
 import jakarta.transaction.Transactional
 import org.slf4j.MDC
 import org.springframework.stereotype.Service
-import org.springframework.data.domain.Page
-import org.springframework.data.domain.PageRequest
-import org.springframework.data.domain.Sort
 
 
 @Service
 class RecipeDaoImpl(val recipeRepository: RecipeRepository) : IRecipeDao {
-//    DAO focuses only on database transactions
+    private val logUtil = LogUtil(OperationLevel.REPOSITORY, this::class.java)
+    private val baseLog = BaseLog()
+
+    //    DAO focuses only on database transactions
 
     @Transactional
     override fun createRecipe(dto: RecipeDto): RecipeDto? {
@@ -73,6 +75,30 @@ class RecipeDaoImpl(val recipeRepository: RecipeRepository) : IRecipeDao {
 //    }
 
     override fun deleteRecipe(id: Long): Boolean {
-        TODO("Not yet implemented")
+        try {
+            val requestId = MDC.get("requestId")
+            baseLog.message = "Delete recipe with id '$id' dao impl started'"
+            baseLog.additionalInfo = mutableMapOf("requestId" to requestId)
+            logUtil.log(baseLog)
+
+            val recipe = recipeRepository.findById(id)
+            if (recipe.isPresent) {
+                val recipeEntity = recipe.get()
+                recipeRepository.delete(recipeEntity)
+                baseLog.message = "Successfully deleted recipe with id '$id'"
+                logUtil.log(baseLog)
+
+                return true
+
+            } else {
+                throw ResourceNotFoundException(message = "Recipe with id '$id' not found")
+            }
+
+        } catch (ex: Exception) {
+            baseLog.message = ex.message
+            logUtil.logE(baseLog, ex)
+            throw ex
+        }
+
     }
 }

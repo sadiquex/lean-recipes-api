@@ -89,6 +89,7 @@ class RecipeServiceImpl(val recipeDao: IRecipeDao, val recipeRepository: RecipeR
     }
 
     override fun deleteRecipe(id: Long): Boolean {
-        TODO("Not yet implemented")
+        return recipeDao.deleteRecipe(id)
+
     }
 }
