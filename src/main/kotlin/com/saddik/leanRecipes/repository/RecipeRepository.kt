@@ -6,7 +6,10 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor
 
 
 interface RecipeRepository : JpaRepository<RecipeDBModel, Long>, JpaSpecificationExecutor<RecipeDBModel> {
+    fun findRecipeByTitle(title: String): RecipeDBModel?
+    fun findAllByTitle(title: String): List<RecipeDBModel>
 }
+
 
 
 //"Hey Spring, generate the implementation for this repository, and give me all the CRUD and filtering powers I need for working with RecipeDBModel."

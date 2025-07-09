@@ -2,6 +2,7 @@ package com.saddik.leanRecipes.repository.dao
 
 import com.saddik.leanRecipes.controller.dto.recipe.RecipeDto
 import com.saddik.leanRecipes.exceptions.ResourceNotFoundException
+import com.saddik.leanRecipes.exceptions.ResourceAlreadyExistsException
 import com.saddik.leanRecipes.repository.RecipeRepository
 import com.saddik.leanRecipes.utils.RecipeMapper
 import jakarta.transaction.Transactional
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort
+
 
 @Service
 class RecipeDaoImpl(val recipeRepository: RecipeRepository) : IRecipeDao {
@@ -25,7 +27,7 @@ class RecipeDaoImpl(val recipeRepository: RecipeRepository) : IRecipeDao {
     override fun getAllRecipes(): List<RecipeDto> {
         val allRecipes = recipeRepository.findAll()
 //            baseLog.additionalInfo?.put("Success", "Successfully fetched ${allRecipes.size}")
-        return allRecipes.map { RecipeMapper.toDto(it) } // convert to income and return
+        return allRecipes.map { RecipeMapper.toDto(it) } // convert to recipe and return
     }
 
     override fun getRecipeById(id: Long): RecipeDto? {

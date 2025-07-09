@@ -1,7 +1,9 @@
 package com.saddik.leanRecipes.service.impl
 
 import com.saddik.leanRecipes.controller.dto.recipe.RecipeDto
+import com.saddik.leanRecipes.exceptions.ResourceAlreadyExistsException
 import com.saddik.leanRecipes.exceptions.ResourceNotFoundException
+import com.saddik.leanRecipes.repository.RecipeRepository
 import com.saddik.leanRecipes.repository.dao.IRecipeDao
 import com.saddik.leanRecipes.service.IRecipeService
 import com.saddik.leanRecipes.utils.log.BaseLog
@@ -11,33 +13,41 @@ import org.slf4j.MDC
 import org.springframework.stereotype.Service
 
 @Service
-class RecipeServiceImpl(val recipeDao: IRecipeDao) : IRecipeService {
+class RecipeServiceImpl(val recipeDao: IRecipeDao, val recipeRepository: RecipeRepository) : IRecipeService {
     private val logUtil = LogUtil(OperationLevel.REPOSITORY, this::class.java)
     private val baseLog = BaseLog()
 
     override fun createRecipe(dto: RecipeDto): RecipeDto? {
-        try {
-//            log what's happening
-            //            1. get the requestId (but we're now setting it in LogUtil)
-//            2. set the message and additional info using the requestId
-            baseLog.message = "Adding recipe service started"
-//            3. pass this info to logUtil.log method
-            baseLog.additionalInfo?.put("Success", "Successfully added recipe with id ${dto.id}")
+        baseLog.message = "Adding recipe service started"
+        baseLog.additionalInfo = mutableMapOf("requestId" to MDC.get("requestId"))
+        logUtil.log(baseLog)
 
+        return try {
+            val recipes = recipeRepository.findAllByTitle(dto.title ?: "")
+            if (recipes.isNotEmpty()) {
+                throw ResourceAlreadyExistsException("Recipe with title '${dto.title}' already exists")
+            }
+
+            val createdRecipe = recipeDao.createRecipe(dto)
+
+            baseLog.message = "Successfully added recipe with id ${createdRecipe?.id}"
+            baseLog.additionalInfo?.put("Success", "Recipe created")
             logUtil.log(baseLog)
 
-            return recipeDao.createRecipe(dto)
+            createdRecipe
+
+        } catch (ex: ResourceAlreadyExistsException) {
+            baseLog.message = ex.message
+            logUtil.logE(baseLog, ex)
+            throw ex
+
         } catch (ex: Exception) {
             baseLog.message = "Failed to add recipe: ${ex.message}"
-            baseLog.additionalInfo = mutableMapOf(
-                "requestId" to MDC.get("requestId")
-            )
             logUtil.logE(baseLog, ex)
-
             throw RuntimeException("Unable to create recipe at this time. Please try again later.")
         }
-
     }
+
 
     override fun getAllRecipes(): List<RecipeDto> {
         try {

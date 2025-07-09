@@ -72,7 +72,7 @@ class RecipeController(val recipeService: IRecipeService) {
         logUtil.log(baseLog)
 
         val code = 200
-        val message = "Income with id '$id' retrieved"
+        val message = "Recipe with id '$id' retrieved"
 
         val apiResponse = ApiResponseDto(
             message = message,

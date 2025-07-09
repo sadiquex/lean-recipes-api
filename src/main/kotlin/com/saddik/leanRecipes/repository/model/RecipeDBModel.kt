@@ -12,6 +12,9 @@ class RecipeDBModel : BaseEntity() {
     @GeneratedValue(strategy = GenerationType.IDENTITY) // let the db auto-generate the id
     var id: Long? = null
 
+//    var title: String? = ""
+
+    @Column(unique = true)
     var title: String? = ""
 
     var description: String = ""
