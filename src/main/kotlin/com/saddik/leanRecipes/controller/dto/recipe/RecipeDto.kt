@@ -1,4 +1,4 @@
-package com.saddik.leanRecipes.controller.dto.recipe
+package com.saddik.leanRecipes.config.com.saddik.leanRecipes.controller.dto.recipe
 
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.NotNull

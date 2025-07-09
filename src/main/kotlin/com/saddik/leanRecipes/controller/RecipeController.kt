@@ -1,7 +1,7 @@
 package com.saddik.leanRecipes.controller
 
-import com.saddik.leanRecipes.controller.dto.recipe.ApiResponseDto
-import com.saddik.leanRecipes.controller.dto.recipe.RecipeDto
+import com.saddik.leanRecipes.config.com.saddik.leanRecipes.controller.dto.ApiResponseDto
+import com.saddik.leanRecipes.config.com.saddik.leanRecipes.controller.dto.recipe.RecipeDto
 import com.saddik.leanRecipes.service.IRecipeService
 import com.saddik.leanRecipes.utils.log.BaseLog
 import com.saddik.leanRecipes.utils.log.LogUtil

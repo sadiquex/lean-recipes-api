@@ -1,6 +1,6 @@
 package com.saddik.leanRecipes.service
 
-import com.saddik.leanRecipes.controller.dto.recipe.RecipeDto
+import com.saddik.leanRecipes.config.com.saddik.leanRecipes.controller.dto.recipe.RecipeDto
 import org.springframework.data.domain.Page
 
 interface IRecipeService {

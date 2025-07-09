@@ -1,6 +1,6 @@
 package com.saddik.leanRecipes.repository.dao
 
-import com.saddik.leanRecipes.controller.dto.recipe.RecipeDto
+import com.saddik.leanRecipes.config.com.saddik.leanRecipes.controller.dto.recipe.RecipeDto
 import com.saddik.leanRecipes.exceptions.ResourceNotFoundException
 import com.saddik.leanRecipes.repository.RecipeRepository
 import com.saddik.leanRecipes.utils.RecipeMapper

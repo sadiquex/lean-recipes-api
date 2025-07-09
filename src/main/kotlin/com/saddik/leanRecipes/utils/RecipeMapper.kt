@@ -1,6 +1,6 @@
 package com.saddik.leanRecipes.utils
 
-import com.saddik.leanRecipes.controller.dto.recipe.RecipeDto
+import com.saddik.leanRecipes.config.com.saddik.leanRecipes.controller.dto.recipe.RecipeDto
 import com.saddik.leanRecipes.repository.model.RecipeDBModel
 
 object RecipeMapper {
