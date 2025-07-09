@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/api/v1/recipes")
+@CrossOrigin(origins = ["http://localhost:5173"])
 class RecipeController(val recipeService: IRecipeService) {
     val logUtil = LogUtil(
         OperationLevel.CONTROLLER, RecipeController::class.java
@@ -103,6 +104,24 @@ class RecipeController(val recipeService: IRecipeService) {
 
         return ResponseEntity.status(code).body(apiResponse)
 
+
+    }
+
+    @GetMapping("/latest")
+    fun getLatestRecipes(): ResponseEntity<ApiResponseDto<List<RecipeDto>>> {
+        baseLog.message = "Get latest recipes controller initiated"
+        logUtil.log(baseLog)
+
+        val latestRecipes = recipeService.getLatestRecipes()
+        val isSuccess = latestRecipes.isNotEmpty()
+        val code = if (isSuccess) 200 else 400
+
+        val apiResponse = ApiResponseDto(
+            message = "Latest recipes fetched",
+            code = code,
+            body = latestRecipes
+        )
+        return ResponseEntity.status(code).body(apiResponse)
 
     }
 

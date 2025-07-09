@@ -10,6 +10,8 @@ interface IRecipeService {
 
     fun getAllRecipes(): List<RecipeDto>
 
+    fun getLatestRecipes(): List<RecipeDto>
+
 //    fun updateRecipe(id: Long, request: RecipeDto): RecipeResponse
 
     fun deleteRecipe(id: Long): Boolean

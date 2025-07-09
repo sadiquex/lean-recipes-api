@@ -3,6 +3,7 @@ package com.saddik.leanRecipes.repository.model
 import jakarta.persistence.*
 import kotlin.collections.ArrayList
 import org.springframework.data.jpa.domain.support.AuditingEntityListener
+import java.time.LocalDateTime
 
 @Entity
 @Table(name = "recipes")
@@ -11,8 +12,6 @@ class RecipeDBModel : BaseEntity() {
     @Id // marks primary key of the table
     @GeneratedValue(strategy = GenerationType.IDENTITY) // let the db auto-generate the id
     var id: Long? = null
-
-//    var title: String? = ""
 
     @Column(unique = true)
     var title: String? = ""

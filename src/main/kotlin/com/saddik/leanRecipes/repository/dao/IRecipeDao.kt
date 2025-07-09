@@ -9,16 +9,10 @@ interface IRecipeDao {
 
     fun getRecipeById(id: Long): RecipeDto?
 
+    fun getLatestRecipes(): List<RecipeDto>
+
 //    fun updateRecipe(id: Long, request: RecipeDto): RecipeResponse
 
     fun deleteRecipe(id: Long): Boolean
 
 }
-
-//package com.saddik.leanRecipes.service
-//
-//import com.saddik.leanRecipes.controller.dto.recipe.RecipeDto
-//
-//interface IRecipeService {
-//
-//}

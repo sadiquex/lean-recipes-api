@@ -36,16 +36,6 @@ class RecipeDaoImpl(val recipeRepository: RecipeRepository) : IRecipeDao {
         val recipe = recipeRepository.findById(id)
         val searchResult = recipeRepository.findById(id)
 
-//        if (recipe.isPresent) {
-//            val recipeEntity = recipe.get()
-//
-//            //                convert into dto for client
-//            val convertedRecipe = RecipeMapper.toDto(recipeEntity)
-//            return convertedRecipe
-//        } else {
-//            throw ResourceNotFoundException(message = "Recipe with id $id not found")
-//        }
-
         if (searchResult.isPresent) {
             val singleRecipeData = searchResult.get()
 
@@ -67,6 +57,15 @@ class RecipeDaoImpl(val recipeRepository: RecipeRepository) : IRecipeDao {
             )
         }
 
+    }
+
+    override fun getLatestRecipes(): List<RecipeDto> {
+        baseLog.message = "Fetching latest 8 recipes"
+        logUtil.log(baseLog)
+
+        val latestRecipes = recipeRepository.findTop8ByOrderByCreatedAtDesc()
+
+        return latestRecipes.map { RecipeMapper.toDto(it) }
     }
 
 //    override fun getAllRecipes(page: Int, size: Int, sortBy: String, direction: String): Page<RecipeDto> {

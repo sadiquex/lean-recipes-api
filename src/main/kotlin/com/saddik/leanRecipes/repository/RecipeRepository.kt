@@ -8,6 +8,9 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor
 interface RecipeRepository : JpaRepository<RecipeDBModel, Long>, JpaSpecificationExecutor<RecipeDBModel> {
     fun findRecipeByTitle(title: String): RecipeDBModel?
     fun findAllByTitle(title: String): List<RecipeDBModel>
+
+    fun findTop8ByOrderByCreatedAtDesc(): List<RecipeDBModel>
+
 }
 
 

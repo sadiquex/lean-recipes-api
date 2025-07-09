@@ -65,6 +65,15 @@ class RecipeServiceImpl(val recipeDao: IRecipeDao, val recipeRepository: RecipeR
 
     }
 
+    override fun getLatestRecipes(): List<RecipeDto> {
+        baseLog.message = "Fetching Latest recipes"
+        logUtil.log(baseLog)
+
+        return recipeDao.getLatestRecipes()
+
+
+    }
+
     override fun getRecipeById(id: Long): RecipeDto? {
         try {
             baseLog.message = "Fetching single recipe service started"
