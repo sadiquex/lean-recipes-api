@@ -4,7 +4,7 @@ import com.saddik.leanRecipes.config.com.saddik.leanRecipes.repository.model.Use
 import org.springframework.data.jpa.repository.JpaRepository
 
 interface UserRepository : JpaRepository<UserDBModel, Long> {
-    fun findByEmail(email: String): List<UserDBModel?>
+    fun findByEmail(email: String): UserDBModel?
     fun existsByEmail(email: String): Boolean
 
 }

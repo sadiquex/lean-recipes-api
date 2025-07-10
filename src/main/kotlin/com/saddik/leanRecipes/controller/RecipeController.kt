@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/api/v1/recipes")
-@CrossOrigin(origins = ["http://localhost:5173"])
+@CrossOrigin(origins = ["http://localhost:5173","*"])
 class RecipeController(val recipeService: IRecipeService) {
     val logUtil = LogUtil(
         OperationLevel.CONTROLLER, RecipeController::class.java
