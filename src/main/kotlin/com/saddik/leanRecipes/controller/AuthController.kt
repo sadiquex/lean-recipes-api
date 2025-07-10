@@ -7,6 +7,8 @@ import com.saddik.leanRecipes.config.com.saddik.leanRecipes.controller.dto.auth.
 import com.saddik.leanRecipes.config.com.saddik.leanRecipes.repository.UserRepository
 import com.saddik.leanRecipes.config.com.saddik.leanRecipes.service.IAuthService
 import com.saddik.leanRecipes.controller.RecipeController
+import com.saddik.leanRecipes.controller.dto.auth.LoginRequestDto
+import com.saddik.leanRecipes.controller.dto.auth.LoginResponseDto
 import com.saddik.leanRecipes.utils.log.BaseLog
 import com.saddik.leanRecipes.utils.log.LogUtil
 import com.saddik.leanRecipes.utils.log.OperationLevel
@@ -49,7 +51,24 @@ class AuthController(
         )
         return ResponseEntity.status(code).body(apiResponse)
 
-
     }
 
+    @PostMapping("/login")
+//    fun loginUser(@RequestBody payload:LoginRequestDto):ResponseEntity<ApiResponseDto<LoginResponseDto>>{
+    fun loginUser(@RequestBody payload: LoginRequestDto): ResponseEntity<Any> {
+        val loginUserResponse = authService.loginUser(payload)
+
+        baseLog.message = "User login with response $loginUserResponse"
+        logUtil.log(baseLog)
+
+        val code = if (loginUserResponse != null) 201 else 400
+        val message = if (loginUserResponse != null) "User login successfully" else "Failed to create user"
+
+        val apiResponse = ApiResponseDto(
+            message = message,
+            code = code,
+            body = loginUserResponse
+        )
+        return ResponseEntity.status(code).body(apiResponse)
+    }
 }
