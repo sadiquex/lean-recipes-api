@@ -1,3 +1,14 @@
+#name: lean_recipes
+#services:
+#  database:
+#    container_name: lean_recipes_database
+#    image: postgres
+#    ports:
+#      - "5432:5432"
+#    environment:
+#      - POSTGRES_PASSWORD=12345
+#      - POSTGRES_DB=lean-recipes-db
+
 name: lean_recipes
 services:
   database:
@@ -6,5 +17,18 @@ services:
     ports:
       - "5432:5432"
     environment:
-      - POSTGRES_PASSWORD=12345
-      - POSTGRES_DB=lean-recipes-db
+      POSTGRES_DB: lean-recipes-db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 12345
+
+  app:
+    container_name: lean_recipes_app
+    build: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      - database
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://database:5432/lean-recipes-db
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: 12345
